@@ -1,0 +1,133 @@
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+    cout << "======================================================" << endl;
+    cout << " Welcome to ENDA BICYCLE LOCATION !! " << endl;
+    cout << "======================================================" << endl;
+
+    cout << "1 - The location bicycle start at 0h and finish at 24h " << endl;
+    cout << "2 - From 0h to 7h and 17h to 24h it is cost: $10" << endl;
+    cout << "3 - From 7h to 17h it is cost: $15" << endl;
+    cout << "4 - We are open from 0h to 24h" << endl;
+    cout << "5 - 10% reduction for more than 4h from 7h to 17h" << endl;
+    cout << "6 - 5% reduction for more than 4h for else hours" << endl;
+    cout << endl;
+
+    char selection ;
+
+    do
+    {
+        cout << "Press 'b' to continue or 'a' to quit !!" << endl;
+        cout << endl;
+        cin >> selection ;
+
+        if ( selection == 'a' || selection == 'A')
+        {
+            cout << endl;
+            cout << "Good bye, see you!" << endl;
+
+        }
+
+        else if ( selection == 'b' || selection == 'B')
+        {
+            int start_time , end_time ;
+            cout << "please , Enter the starting time" << endl;
+            cin >> start_time;
+            cout << "please , Enter the ending time" << endl;
+            cin >> end_time;
+
+            if ( (start_time<0 || start_time>24) || (end_time<0 || end_time>24)){
+                cout << "The bicycle time is between 0h and 24h" << endl;
+                cout << endl ;}
+            else if ( start_time == end_time ){
+                cout << "Sorry!, you didn't bicycle enough!!" << endl;
+                cout << endl;}
+            else if ( start_time > end_time ){
+                cout << "The ending time must be >= to the starting time!" << endl;
+                cout << endl;}
+            else
+            {
+                int local_h , total_h;
+                const int sum_15 = 15 ;
+                const int sum_10 = 10 ;
+
+                if (  (start_time<=7 && end_time<=7) || ((start_time>=17 && start_time<=24) && (end_time>=17 && end_time<=24))  )
+                {
+                    local_h = end_time - start_time ;
+                    total_h = local_h*sum_10;
+
+                    cout << "You bicycle during " << local_h << " hour(s) in $10 bills." << endl;
+                    cout << endl;
+                    cout << "The Total amount to pay is: $" << total_h << endl;
+                    cout << endl;
+                }
+
+                else if ( (start_time>=7 && start_time<=17) && (end_time>=7 && end_time<=17) )
+                {
+                    local_h = end_time - start_time ;
+                    total_h = local_h*sum_15;
+
+                    cout << "You bicycle during " << local_h << " hour(s) in $15 bills." << endl;
+                    cout << endl;
+                    cout << "The Total amount to pay is: $" << total_h << endl;
+                    cout << endl;
+                }
+                else if((start_time>=0 && start_time<=7) && (end_time>=17 && end_time<=24))
+                {
+                    int i , j ;
+                    i =  (end_time - 17 ) + (7 - start_time ) ;
+                    j = 10 ;
+                    local_h = (i*sum_10) + (j*sum_15) ;
+                    total_h = local_h ;
+
+                    cout << "You bicycle during " << i << " hour(s) in $10 bills" << " and "<< j << " hour(s) in $15 bills"<< endl;
+                    cout << endl;
+                    cout << "The Total amount to pay is: $" << total_h << endl;
+                    cout << endl;
+                }
+                else if ( (start_time>=0 && start_time<=7) && (end_time>=7 && end_time<=17) )
+                {
+                    int i , j ;
+                    i= (7-start_time);
+                    j= (end_time-7);
+
+                    local_h = (i*sum_10) + (j*sum_15);
+
+                    total_h = local_h ;
+
+                    cout << "You bicycle during " << i << " hour(s) in $10 bills" << " and "<< j << " hour(s) in $15 bills"<< endl;
+                    cout << endl;
+                    cout << "The Total amount to pay is: $" << total_h << endl;
+                    cout << endl;
+                }
+                else if ( (start_time>=7 && start_time<=17) && (end_time>=17 && end_time<=24) )
+                {
+                    int i , j ;
+                    i = (24-end_time);
+                    j = (17-start_time);
+
+                    local_h = (i*sum_10) + (j*sum_15) ;
+                    total_h = local_h ;
+
+                    cout << "You bicycle during " << i << " hour(s) in $10 bills" << " and "<< j << " hour(s) in $15 bills"<< endl;
+                    cout << endl;
+                    cout << "The Total amount to pay is: $" << total_h << endl;
+                    cout << endl;
+                }
+            }
+        }
+        else
+        {
+            cout << " Unknown entry!, please try again." << endl;
+            cout << endl;
+        }
+
+    }while( selection != 'a' && selection != 'A');
+
+    return 0;
+}
+
+//Programmer : Israel Enda Ilanie
