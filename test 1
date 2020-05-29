@@ -1,0 +1,311 @@
+#include <conio.h>
+#include <iostream>
+#include <vector>
+#include <string>
+#include <ctime>
+#include <cstdlib>
+#include <windows.h>
+
+using namespace std;
+
+void new_game();
+void load_game();
+void help_game();
+void exit_game();
+void save_game(int , int);
+void game_over(int,int);
+void game();
+void header_game();
+void display_question();
+int display_sum(int , int);
+int display_sub(int , int);
+int display_mult(int , int);
+int display_div(int , int);
+int display_modul(int , int);
+//****************************************************************************************************************************
+int choice ;                    // the selection , that we gonna switch on it  
+//****************************************************************************************************************************
+class Person {
+private:
+    string name;              // name of the player 
+    int stage;                     // this is the level 
+    int points;                    //  this is the score
+public:
+    Person (string nom , int stg , int pts) 
+           :  name{ nom } , stage { stg } , points { pts } {
+           }
+    Person (const Person  &source) 
+           :  name{source.name} , stage{source.stage} , points{source.stage}{
+           }
+    ~Person(){
+    }
+    void set_name ( string nom) { this-> name = nom ; }
+    string get_name() { return name ; }
+    void set_stage ( int stg) { this-> stage = stg ; }
+    int get_stage() { return stage; }                                                                 //these are getters and setters for the members attributes 
+    void set_points (int pts) { this-> points = pts ; }
+    int get_points () { return points ; }
+};
+//******************************************************************************************************************************
+vector<Person> mens ;                 // this the vector of person , can create new players and save or load when we need them
+//****************************************************************************************************************************
+int main(){
+    srand(time(0));
+    header_game();
+    
+    do {
+    game();
+    cin >> choice ;
+    switch (choice) {
+        case 1 :
+            new_game();
+        break;
+        case 2 :                                    // the main function   just switch the choice and call the function choosen 
+            load_game();
+        break ;
+        case 3 :
+            help_game();
+        break;
+        case 4 :
+            exit_game();
+        break;
+        default :                                                   // in the case of default we clean just the screen , and loop again since (choice!=4)
+            system("cls");
+            }
+    }while(choice!=4);
+    return 0;
+}
+//****************************************************************************************************************************
+void header_game(){
+    cout << "===========================================================" << endl;
+    cout << "\n==       Welcome to the Enda Operating Mental Game!      ==\n" << endl;                                                      // display just the header
+    cout << "===========================================================\n" << endl;
+}
+//*****************************************************************************************************************************
+void game () {
+    cout << "\n 1. Start new game" << endl;
+    cout << " 2. Load game " << endl;
+    cout << " 3. Help " << endl;                                                                      // this just the menu function , to choose
+    cout << " 4. Exit game " << endl;
+    cout << "==========================================\n" << endl;
+    cout << " Enter your choice : ";
+}
+//***************************************************************************************************************************
+void exit_game(){
+    system("cls");
+    cout << "GoodBye!" << endl;                                 // in case of choice = 4 , exit game just clean the screen , and display good bye , and the menu exit
+    choice = 4 ;
+}
+//****************************************************************************************************************************
+int display_sum(int x , int y){
+    cout << endl;
+    cout << "\t\t   " <<  x  << endl;
+    cout << "\t\t+  "  <<  y << endl;                           //calcul the sum
+    cout << "               ----------" << endl;   
+    return x+y ;
+}
+//****************************************************************************************************************************
+int display_sub(int x , int y){
+    cout << endl;
+    cout << "\t\t   " <<  x  << endl;                                // calcul the substraction
+    cout << "\t\t-  "  <<  y << endl;
+    cout << "               ----------" << endl;   
+    return x-y ;
+}
+//****************************************************************************************************************************
+int display_mult(int x, int y){
+    cout << endl;
+    cout << "\t\t   " <<  x  << endl;
+    cout << "\t\t*  "  <<  y << endl;                                 // calcul the multiplication
+    cout << "               ----------" << endl;   
+    return x*y ;
+}
+//****************************************************************************************************************************
+int display_div(int x , int y){
+    cout << endl;
+    cout << "\t\t     " <<  x  <<endl;
+    cout << "\t\t-:-  "  << y << endl;                                    // calcul the division 
+    cout << "               ----------" << endl;   
+    return   static_cast<double>(x)/static_cast<double>(y) ;
+}
+//****************************************************************************************************************************
+int display_modul(int x , int y){
+    cout << endl;
+    cout << "\t\t    " <<  x  <<endl;                 // return the modul (the rest ) , of the division 
+    cout << "\t\t%  "  << y << endl;
+    cout << "               ----------" << endl;   
+    return   x%y ;
+}
+//*****************************************************************************************************************************
+void display_question(int mom, int dad){
+    int human_answer ;
+    int help_touch;
+    int level{mom};
+    int score{dad};
+    int a, b , c , answer ;
+    bool is_over {false};
+    int you_loose {0};
+    c = 10 ;
+    int operation ;
+
+    do{
+    system("cls");
+    srand(time(0));
+    
+    operation = rand()%5 + 1;
+    a =  rand()%c + 1 ;
+    b =  rand()%c + 1 ;
+    cout << " Level : " << level << "                                                   Mistake(s) : " << you_loose << endl;
+    cout << "\n score :" << score << "                                                    Menu : Press A" << endl;
+    switch(operation){
+        case 1 :
+            answer=display_sum(a,b);
+        break;
+        case 2 :
+            answer=display_sub(a,b);
+        break;
+        case 3 :
+            answer=display_mult(a,b);
+        break;
+        case 4 :
+             answer=display_div(a,b);
+        break;
+        case 5:
+            answer=display_modul(a,b);
+            break;
+        default :
+            answer=display_sum(a,b);
+            }
+
+    auto key = getch() ;
+    
+    if ( key == 'a'){
+       do{
+        system("cls");
+       cout << " \n_ Press 1 to resume game \n_ Press 2 to save the game \n_ Press 3 for help  \n_ press 0 to Quit \n" << endl;
+       cout << "Choose one menu to execute : ";
+       cin >> help_touch ;
+        }while(help_touch!=1 && help_touch!=0 && help_touch!=2 && help_touch!=3);
+        if (help_touch==0) { system("cls") ; is_over = true; }
+        else if (help_touch==1) { system("cls") ;continue; }
+        else if (help_touch==3) { help_game(); }
+        else if (help_touch==2) { 
+            system("cls"); 
+            save_game(level,score) ; 
+            system("pause") ; 
+            is_over = true;
+            system("cls"); 
+            }
+    }
+    else{
+        cout << "                   "; cin >> human_answer ; 
+    }
+    
+    
+    if (human_answer==answer) {
+        score++;
+        if ( score % 10 == 0){
+            level++;
+            c += 20 ;
+        }
+    }
+    
+    if (human_answer!=answer){
+        if (key!='a'){
+            you_loose++;
+        }
+    }
+    
+    if (you_loose==3){
+        game_over(score,level);
+        is_over = true;
+    }
+    
+    }while (!is_over);
+    
+}
+//****************************************************************************************************************************
+void new_game(){
+    system("cls");                                                   // new game function 
+    display_question(1,0);                                   
+}
+//****************************************************************************************************************************
+void save_game(int papa , int maman){
+    system("cls");
+    cout << "  §§§- Save Game -§§§\n" << endl;
+    string kombo;
+    char sexe;
+    
+    cout <<"Enter your name : " ;
+    cin >> kombo ;
+    cout << endl;
+                                                                                                      // the save game function 
+    Person mutu{ kombo, papa , maman };
+    mens.push_back(mutu);
+    
+    //mutu.set_stage(papa);
+    //mutu.set_points(maman);
+    
+    do{
+    cout << "\nAre you, (M) male or (F) female? :  ";
+    cin >> sexe ;
+    }while ( (sexe!='M' &&  sexe!='m' ) && (sexe!='F' && sexe!='f') );
+    
+    if (sexe=='M' || sexe=='m')
+        cout << "\nMr " << kombo << " your game was succesfully saved!\n " << endl;
+    else if (sexe=='F' || sexe=='f')
+        cout << "\nMme " << kombo << " your game was succesfully saved!\n " << endl;
+}
+//****************************************************************************************************************************
+void load_game(){
+    system("cls");
+    string load_name;                                                                                            // load game fuction 
+    bool is_load {false};
+    do{
+        if ( mens.size() == 0) { cout << "There is no saved game!\n" << endl;  is_load = true ; system("pause"); system("cls"); }
+        else{
+        for ( auto &item : mens){
+            cout << "\n Please enter your name : " ; cin >> load_name ;
+            if ( item.get_name() == load_name ){
+                system("cls");
+                cout << "Name : " << item.get_name() << endl;
+                cout << "Level  : " << item.get_stage() << endl;
+                cout << "Score  : " << item.get_points() << endl;
+                system("pause");
+                system("cls");
+                display_question(  item.get_stage(), item.get_points() );
+                is_load = true; 
+                }  
+            else if (item.get_name()!=load_name) { system("cls"); }
+        }
+    }
+    }while(!is_load);
+}
+//****************************************************************************************************************************
+void help_game(){                                                                        // display the help 
+    system("cls");
+    cout << "==============================================================\n" << endl;
+    cout << "  §§§- THESE ARE TIPS FOR THE GAME -§§§\n" << endl;
+    cout << " _ You will see a random calculation appear.\n _The application can add, divide, multiply, subtract number.\n _(%) this the module, is the rest of the division.\n _(-:-) is the division, only the answer, dont care about the rest.\n _Try to Give the correct answer many time as possible!\n _Eache time you give a correct answer, the score increase.\n _Every 10 questions the diffculty Also increase.\n _You can only make 2 mistakes , at 3 you loose.\n _Press A, before answer to display the menu! \n _Press ENTER to give the answer." << endl;
+    cout << "\n==============================================================\n" << endl;
+    system("pause");
+    system("cls");
+}
+//****************************************************************************************************************************
+void game_over( int porte , int levier){
+    system("cls");
+    cout << "§§ GAME OVER! §§" << endl;
+    cout << endl;
+    cout << " Congratulations your scores is : "  << porte << endl;    //this is the gameover function , 
+    cout << " you arrived till level number : " << levier << endl;
+    system("pause");
+    system("cls");
+}
+//*********************************************************************************************************
+
+//Programmer : Israel ENDA ILANIE 
+
+//  facebook : israel ilanie enda 
+// instagram : mr_enda10 , israel ilanie 
+// twitter : israel ilanie  
+// github : ilanieisrael
